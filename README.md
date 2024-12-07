@@ -1,2 +1,3 @@
 # tanzu-cluster-argocd-deployment
-T
+This repository to create tanzu cluster using ArgoCD 
+Managing kubernetes infra packages using ArgoCD 
