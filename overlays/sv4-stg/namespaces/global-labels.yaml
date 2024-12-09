@@ -1,0 +1,21 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: global-labels
+labels:
+    ci-hubid: HUB00002106
+    ci-environment: STG
+    ci-servicetier: UAT 
+    ci-department: HO
+    ci-usage: infra_application
+    ci-ticket: Nil
+    ci-requestor: dcops_homelab.com
+    ci-provisionedby: kpe_homelab.com
+    contact: dcops-unix_homelab.com
+    app-category: infra
+    resource-quota: default
+fieldSpecs:
+- path: metadata/labels
+  create: true
+  update: true
+

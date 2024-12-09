@@ -1,0 +1,47 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: global-labels
+labels:
+    ci-hubid: HUB00002106
+    ci-environment: STG
+    ci-servicetier: UAT
+    ci-department: HO
+    ci-usage: infra_application
+    ci-ticket: Nil
+    ci-requestor: dcops_homelab.com
+    ci-provisionedby: kpe_homelab.com
+    contact: dcops-unix_homelab.com
+    app-category: infra
+    resource-quota: default
+
+fieldSpecs:
+- path: metadata/labels
+  create: true
+  update: true
+
+
+
+# https://homelab.sharepoint.com/:x:/r/ops/CM/_layouts/15/Doc.aspx?sourcedoc=%7BF5FECEC7-4F6F-4803-AF7D-8611278B8E5D%7D&file=Taxonomy%20-%20Asset%20Tagging.xlsx&action=default&mobileredirect=true&DefaultItemOpen=1
+#
+# # Service Tiers
+# #Production
+# #DR
+# #UAT
+# #CUST-DEV
+# #Training
+# #Sandbox
+# #Development
+# #QA
+# #Demo
+# #PSR
+#
+# # Departments
+# #Development
+# #Professional Services
+# #Subscriptions
+# #HostingOps
+# #InfoSec
+# #Sales
+# app-category: infra/workload/developement 
+# resourcequota: default/large/xl-large

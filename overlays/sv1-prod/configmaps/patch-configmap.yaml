@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stack-config
+  namespace: vmware-system-tmc 
+data:
+  management_cluster_name: "sjca-prod-tanzu-k8s"

@@ -1,0 +1,64 @@
+# It automatically provides the following fields as values to the app template:
+#  - name
+#  - server
+#  - metadata.labels.<key>
+#  - metadata.annotations.<key>
+#  - values.<key>
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: k8s-migration
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          tmc: detached
+  template:
+    metadata:
+      name: '{{name}}-migration'
+      labels:
+        environment: '{{metadata.labels.env}}'
+        Datacenter:  '{{metadata.labels.dc}}'
+    spec:
+      project: '{{metadata.labels.dc}}'
+      sources:
+        - repoURL: https://github.com/hairajesh2001/tanzu-cluster-argocd-deployment.git
+          targetRevision: beta
+          path: 'overlays/{{metadata.labels.dc}}/configmaps'
+          kustomize:
+            patches:
+              - target:
+                  kind: ConfigMap
+                  name: stack-config
+                  namespace: vmware-system-tmc
+                patch: |
+                  apiVersion: v1
+                  kind: ConfigMap
+                  metadata:
+                    name: stack-config
+                  data:
+                    cluster_name: '{{name}}'
+        - repoURL: https://github.com/hairajesh2001/tanzu-cluster-argocd-deployment.git
+          targetRevision: beta
+          path: 'overlays/{{metadata.labels.dc}}/namespaces'
+        - repoURL: https://github.com/hairajesh2001/tanzu-cluster-argocd-deployment.git
+          targetRevision: beta
+          path: 'overlays/{{metadata.labels.dc}}/velero'
+      destination:
+        server: '{{server}}'
+#        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - createNamespace=true 
+        automated:
+          prune:  false
+          selfHeal: true
+        retry:
+          limit: 5
+          backoff:
+            duration: "1m"
+            factor: 2
+            maxDuration: "10m"
+

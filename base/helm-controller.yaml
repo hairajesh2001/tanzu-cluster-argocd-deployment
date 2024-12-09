@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    packaging.carvel.dev/package: helm-controller-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: helm-controller-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: helm-controller-tanzu-fluxcd-packageinstalls-sa
+  namespace: tanzu-fluxcd-packageinstalls
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    packaging.carvel.dev/package: helm-controller-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: helm-controller-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: helm-controller-tanzu-fluxcd-packageinstalls-cluster-role
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    packaging.carvel.dev/package: helm-controller-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: helm-controller-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: helm-controller-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: helm-controller-tanzu-fluxcd-packageinstalls-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: helm-controller-tanzu-fluxcd-packageinstalls-sa
+  namespace: tanzu-fluxcd-packageinstalls
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    packaging.carvel.dev/package-ClusterRole: helm-controller-tanzu-fluxcd-packageinstalls-cluster-role
+    packaging.carvel.dev/package-ClusterRoleBinding: helm-controller-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+    packaging.carvel.dev/package-ServiceAccount: helm-controller-tanzu-fluxcd-packageinstalls-sa
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: helm-controller-tanzu-fluxcd-packageinstalls-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: helm-controller-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: helm-controller-tanzu-fluxcd-packageinstalls-sa
+  creationTimestamp: null
+  name: helm-controller
+  namespace: tanzu-fluxcd-packageinstalls
+spec:
+  packageRef:
+    refName: fluxcd-helm-controller.tanzu.vmware.com
+    versionSelection:
+      constraints: 0.36.2+vmware.1-tkg.1
+      prereleases: {}
+  serviceAccountName: helm-controller-tanzu-fluxcd-packageinstalls-sa
+status:
+  conditions: null
+  friendlyDescription: ""
+  observedGeneration: 0

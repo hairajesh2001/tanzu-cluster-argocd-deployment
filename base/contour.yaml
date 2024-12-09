@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    packaging.carvel.dev/package: contour-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: contour-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: contour-tanzu-fluxcd-packageinstalls-sa
+  namespace: tanzu-fluxcd-packageinstalls
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    packaging.carvel.dev/package: contour-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: contour-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: contour-tanzu-fluxcd-packageinstalls-cluster-role
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    packaging.carvel.dev/package: contour-tanzu-fluxcd-packageinstalls
+    tkg.tanzu.vmware.com/tanzu-package: contour-tanzu-fluxcd-packageinstalls
+  creationTimestamp: null
+  name: contour-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: contour-tanzu-fluxcd-packageinstalls-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: contour-tanzu-fluxcd-packageinstalls-sa
+  namespace: tanzu-fluxcd-packageinstalls
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    packaging.carvel.dev/package-ClusterRole: contour-tanzu-fluxcd-packageinstalls-cluster-role
+    packaging.carvel.dev/package-ClusterRoleBinding: contour-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+    packaging.carvel.dev/package-ServiceAccount: contour-tanzu-fluxcd-packageinstalls-sa
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: contour-tanzu-fluxcd-packageinstalls-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: contour-tanzu-fluxcd-packageinstalls-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: contour-tanzu-fluxcd-packageinstalls-sa
+  creationTimestamp: null
+  name: contour
+  namespace: tanzu-fluxcd-packageinstalls
+spec:
+  packageRef:
+    refName: contour.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.28.2+vmware.1-tkg.1
+      prereleases: {}
+  serviceAccountName: contour-tanzu-fluxcd-packageinstalls-sa
+status:
+  conditions: null
+  friendlyDescription: ""
+  observedGeneration: 0

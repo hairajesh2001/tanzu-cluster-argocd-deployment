@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blr-dev-tanzu-clusters
+  namespace: argocd
+spec:
+  destination:
+    server: https://10.75.18.2:6443   
+  project: default
+  syncPolicy:
+    automated:
+#      prune: false
+      selfHeal: false
+  source:
+    path: blr-dev-clusters
+    repoURL: https://github.com/hairajesh2001/tanzu-cluster-argocd-deployment.git
+    targetRevision: default
